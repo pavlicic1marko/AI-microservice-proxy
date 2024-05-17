@@ -12,11 +12,12 @@ def getRoutes(request):
     return Response(routes)
 
 @api_view(['GET'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def getProducts(request):
     return Response(products)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getProductsById(request, pk):
     product = None
     for i in products:

@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .todos import products
 
 # Create your views here.
 
@@ -14,14 +13,4 @@ def getRoutes(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getProducts(request):
-    return Response(products)
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProductsById(request, pk):
-    product = None
-    for i in products:
-        if i['_id'] == pk:
-            product = i
-            break
-    return Response(product)
+    return Response({'test-key':'test123'})

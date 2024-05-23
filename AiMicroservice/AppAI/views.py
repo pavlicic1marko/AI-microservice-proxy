@@ -54,7 +54,7 @@ def createPrompt(request):
     try:
         prompt = Prompt.objects.create(
             user_id = 1,
-            question='test',
+            question=data['question'],
             answer=api_Response,
         )
         serializer = PromptSerializer(prompt, many=False)

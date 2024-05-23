@@ -46,7 +46,7 @@ def deletePromptById(request, pk):
     except Exception as e:
         return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
+@api_view(['POST'])
 def createPrompt(request):
     data = request.data
     api_Response = 'test_Response'
@@ -54,7 +54,7 @@ def createPrompt(request):
     try:
         prompt = Prompt.objects.create(
             user_id = 1,
-            question=data['question'],
+            question='test',
             answer=api_Response,
         )
         serializer = PromptSerializer(prompt, many=False)

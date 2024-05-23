@@ -7,6 +7,7 @@ from AppAI.models import Prompt
 from AppAI.serializer import PromptSerializer
 import django.core.exceptions
 
+
 # Create your views here.
 
 @api_view(['GET'])
@@ -44,4 +45,23 @@ def deletePromptById(request, pk):
 
     except Exception as e:
         return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def createPrompt(request):
+    data = request.data
+    api_Response = 'test_Response'
+
+    try:
+        prompt = Prompt.objects.create(
+            user_id = 1,
+            question=data['question'],
+            answer=api_Response,
+        )
+        serializer = PromptSerializer(prompt, many=False)
+        return Response(serializer.data)
+
+
+    except:
+        message = {'detail': 'SERVER ERROR'}
+        return Response(message, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

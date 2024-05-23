@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from AppAI.models import Prompt
 from AppAI.serializer import PromptSerializer
@@ -19,8 +19,9 @@ def getProducts(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getPrompts():
+@permission_classes([AllowAny])
+
+def getPrompts(request,pk):
     user_id = 1
     promts_for_user = Prompt.objects.filter(user_id=user_id)
     serializer = PromptSerializer(promts_for_user, many=True)

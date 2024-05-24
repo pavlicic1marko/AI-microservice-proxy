@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from AppAI.models import Prompt
 from AppAI.serializer import PromptSerializer
 import django.core.exceptions
+from .openAiProxy import get_answer_from_ai
 
 
 # Create your views here.
@@ -49,13 +50,20 @@ def deletePromptById(request, pk):
 @api_view(['POST'])
 def createPrompt(request):
     data = request.data
-    api_Response = 'test_Response'
+    question = data['question']
+
+    try:
+        api_response = get_answer_from_ai(question)
+    except:
+        return Response({'detail': 'AI API connection error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
     try:
         prompt = Prompt.objects.create(
             user_id = 1,
-            question=data['question'],
-            answer=api_Response,
+            question=question,
+            answer=api_response,
         )
         serializer = PromptSerializer(prompt, many=False)
         return Response(serializer.data)

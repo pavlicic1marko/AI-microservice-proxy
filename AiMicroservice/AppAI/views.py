@@ -50,9 +50,10 @@ def deletePromptById(request, pk):
 @api_view(['POST'])
 def createPrompt(request):
     data = request.data
+    question = data['question']
 
     try:
-        api_response = get_answer_from_ai("is Serbia in the EU")
+        api_response = get_answer_from_ai(question)
     except:
         return Response({'detail': 'AI API connection error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -61,7 +62,7 @@ def createPrompt(request):
     try:
         prompt = Prompt.objects.create(
             user_id = 1,
-            question=data['question'],
+            question=question,
             answer=api_response,
         )
         serializer = PromptSerializer(prompt, many=False)
